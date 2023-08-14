@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 export default function Home() {
   const frankDocRef = doc(db, "users", "random");
   const x="color"
-  const y={"sadw":x}
+  const y="sadw"
     useEffect(()=>{
 
       const call=async ()=>{
@@ -45,7 +45,9 @@ export default function Home() {
     //     favorites: { food: "Pizza", color: "Blue", subject: "recess" },
     //     age: 12
     // });
-      await updateDoc(frankDocRef, y);
+      await updateDoc(frankDocRef, {
+       y:"hf"
+    });
     }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
