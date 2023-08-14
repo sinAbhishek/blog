@@ -2,13 +2,16 @@
 
 import Image from 'next/image'
 import Create from '@/components/Create';
+import Blog from '@/components/Blog';
 import { auth } from './firebase';
 import { signOut } from 'firebase/auth';
 import { doc, setDoc, updateDoc,collection,getDocs,onSnapshot,query } from "firebase/firestore"; 
 import { db } from "./firebase";
 import React, { useEffect, useState } from "react";
 export default function Home() {
+  
   const frankDocRef = doc(db, "users", "random");
+  const [data,setdata]=useState<any>()
   const x="color"
   const y="sadw"
     useEffect(()=>{
@@ -16,11 +19,14 @@ export default function Home() {
       const call=async ()=>{
         const q = query(collection(db, "users"))
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  
+          const array:any=[]
           querySnapshot.forEach((doc) => {
-  
+            Object.values(doc.data()).forEach((c)=>array.push(c))
+        
+            // array.push(doc.data());
               console.log({id:doc.id,...doc.data()});
           });
+          setdata(array)
         });
 
       };
@@ -39,19 +45,21 @@ export default function Home() {
       });
     }
     const update=async()=>{
-      console.log(auth.currentUser)
+      console.log(data)
     //   await setDoc(frankDocRef, {
     //     name: "Frank",
     //     favorites: { food: "Pizza", color: "Blue", subject: "recess" },
     //     age: 12
     // });
-      await updateDoc(frankDocRef, {
-       y:"hf"
-    });
+    //   await updateDoc(frankDocRef, {
+    //    y:"hf"
+    // });
     }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-     <div>hello
+     <div>
+      {data&&data.map((c:any)=>  <Blog blogs={c}/>)}
+    
       <button className=' bg-black' onClick={update}> hello</button>
       <button className=' bg-red-600' onClick={signout}> hello</button>
      </div>

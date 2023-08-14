@@ -4,7 +4,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { doc, setDoc, updateDoc,collection,getDocs,onSnapshot,query } from "firebase/firestore"; 
+import { auth } from '@/app/firebase';
 import axios from 'axios';
+import { db } from '@/app/firebase';
 import { BlogDetails } from '@/types';
 const style = {
   position: 'absolute' as 'absolute',
@@ -23,15 +26,18 @@ const Create=()=> {
     const handleOpen = () => setOpen(true);
     const [file,setfile]=React.useState("")
     const [Image,setImage]=React.useState("")
+    const user:any=auth.currentUser?.uid;
     const handleClose = () => setOpen(false);
     const cloud_name:string="dxz1nwfam"
     const preset_key:string="dfpytcaw"
+    
     const [data,setdata]=React.useState<BlogDetails>({
       title:"",
       name:"",
       description:"",
       image:"",
-      time:""
+      time:"",
+      uid:""
     })
     const upload=async()=>{
       const formdata=new FormData();
@@ -39,19 +45,29 @@ const Create=()=> {
       formdata.append('upload_preset',preset_key);
       const res=await axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,formdata)
       console.log(res.data)
-      setImage(res.data.secure_url)
+      setdata((prev)=>({...prev,image:res.data.secure_url,time:new Date(Date.now())}))
     }
 
     React.useEffect(()=>{
-      const call=()=>{
-        setdata((prev)=>({...prev,image:Image,time:new Date(Date.now())}))
+
+    },[data])
+
+    React.useEffect(()=>{
+      
+      const call=async()=>{
+        console.log(data)
+        const frankDocRef = doc(db, "users", user);
+        await setDoc(frankDocRef, {
+          [data.title]: data,
+      },{merge:true});
+      console.log("success")
       }
-      Image&&call()
-    },[Image])
+      data.image&&call()
+    },[data.image])
 
     const handlechange=(e:React.ChangeEvent<HTMLInputElement>)=>{
       e.preventDefault();
-      setdata((prev)=>({...prev,[e.target.id]:e.target.value}));
+      setdata((prev)=>({...prev,[e.target.id]:e.target.value,uid:user}));
     }
   return (
     <div>
@@ -68,6 +84,7 @@ const Create=()=> {
   <input id='name' type="text" onChange={handlechange}/>
   <input type="file" onChange={(e:any)=>setfile(e.target.files[0])} />
 <button onClick={upload} className=' bg-red-300'>  adsd</button>
+<button onClick={()=>console.log(data.uid)} className=' bg-red-300'>  check</button>
   </Box>
 </Modal>
     </div>
