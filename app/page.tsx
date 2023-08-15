@@ -4,16 +4,19 @@ import Image from 'next/image'
 import Create from '@/components/Create';
 import Blog from '@/components/Blog';
 import { auth } from './firebase';
+import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { doc, setDoc, updateDoc,collection,getDocs,onSnapshot,query } from "firebase/firestore"; 
 import { db } from "./firebase";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Navbar from '@/components/Navbar';
-
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function Home() {
   const [open,setopen]=useState(false)
   const handleClose = () => setopen(false);
+  const router=useRouter()
+  const user=auth.currentUser
   const [data,setdata]=useState<any>()
   const [filter,setfilter]=useState<any>(data)
     useEffect(()=>{
@@ -34,10 +37,13 @@ export default function Home() {
       };
         
         
-        // To update age and favorite color
+  
       call();
 
     },[])
+    useEffect(()=>{
+      user===null&&router.push("login")
+    },[user])
     useEffect(()=>{
       setfilter(data)
     },[data])
@@ -69,19 +75,16 @@ export default function Home() {
     }
   return (
     <main className="w-screen h-max">
-      <Navbar/>
       <div style={{backgroundColor:"#009cfc"}} className=" search w-screen h-32 bg-emerald-300 flex justify-center items-center">
     <input onChange={(e)=>filterresults(e)} className=' rounded-full text-sm text-slate-700 h-10 p-4 w-1/3 ' type="text" name="" id="" placeholder=' Search for blogs' />
       </div>
      <div className='w-screen h-screen flex relative'>
-      <button onClick={()=>setopen(!open)} className=' bg-violet-300 absolute right-0 top-4 mr-8'> Create Blog</button>
+      <button onClick={()=>setopen(!open)} className=' bg-black rounded-lg absolute right-0 top-4 mr-8 text-white px-4 py-2'> Create Blog</button>
       <div className=" mt-28 flex w-full">
       {filter&&filter.map((c:any,i:number)=>  <Blog key={i} blogs={c}/>)}
       </div>
      </div>
      <Create on={open} close={handleClose}/>
-     <button className=' bg-black' onClick={update}> hello</button>
-      <button className=' bg-red-600' onClick={signout}> hello</button>
     </main>
   )
 }
