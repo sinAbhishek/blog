@@ -33,7 +33,15 @@ const Update=(prop:any)=> {
     const cloud_name:string="dxz1nwfam"
     const preset_key:string="dfpytcaw"
     
-    const [data,setdata]=React.useState<BlogDetails>("")
+    const [data,setdata]=React.useState<BlogDetails>({
+        title:"",
+        name:"",
+        description:"",
+        image:"",
+        time:"",
+        userid:"",
+        blogid:""
+      })
     const upload=async()=>{
         if(file){
             const formdata=new FormData();
@@ -72,7 +80,7 @@ const Update=(prop:any)=> {
       prop.data&&data.image&&data.image!==prop.data.image&&call()
     },[data])
 
-    const handlechange=(e:React.ChangeEvent<HTMLInputElement>)=>{
+    const handlechange=(e:any)=>{
       e.preventDefault();
       setdata((prev)=>({...prev,[e.target.id]:e.target.value}));
     }
@@ -90,7 +98,7 @@ const Update=(prop:any)=> {
     <button className=' absolute right-0 text-black bg-white p-2 top-0 ' onClick={()=>prop.close()}> Close</button>
   <input className=' p-2 h-8 border border-slate-700 w-1/2 rounded-md my-4' id='title' value={data.title} type="text" onChange={handlechange} placeholder='Title'/>
   <input className=' p-2 h-8 border border-slate-700 w-1/2 rounded-md my-4' id='name' value={data.name} type="text" onChange={handlechange} placeholder='Your name'/>
-  <textarea className=' p-2 h-24 border border-slate-700 w-1/2 rounded-md my-4' id='description' value={data.description} type="text" onChange={handlechange} placeholder='Content'/>
+  <textarea className=' p-2 h-24 border border-slate-700 w-1/2 rounded-md my-4' id='description' value={data.description}  onChange={handlechange} placeholder='Content'/>
   <input className=' bg-slate-700 rounded-md' type="file" onChange={(e:any)=>setfile(e.target.files[0])} />
 <button  onClick={upload} className=' bg-green-400 rounded-lg px-2 mt-4'>Submit</button>
     </div>}
