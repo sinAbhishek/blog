@@ -10,6 +10,7 @@ import { db } from '../firebase';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { auth } from '../firebase';
+import Navbar from '@/components/Navbar';
 function Page({searchParams}:any) {
   const router=useRouter()
   const [time,settime]=useState<any>()
@@ -76,6 +77,7 @@ router.push("/")
   }
   return (
     <div className='w-screen flex justify-center'>
+      <Navbar/>
       {filter[0]&&<div className=" w-10/12 h-max flex flex-col mt-8">
         <div className="w-full flex justify-center">
         <h1 className=' font-bold text-3xl text-slate-800'>{filter[0].title}</h1>

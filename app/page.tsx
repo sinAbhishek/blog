@@ -75,6 +75,7 @@ export default function Home() {
     }
   return (
     <main className="w-screen h-max">
+      <Navbar/>
       <div style={{backgroundColor:"#009cfc"}} className=" search w-screen h-32 bg-emerald-300 flex justify-center items-center">
     <input onChange={(e)=>filterresults(e)} className=' rounded-full text-sm text-slate-700 h-10 p-4 w-1/3 ' type="text" name="" id="" placeholder=' Search for blogs' />
       </div>

@@ -4,10 +4,12 @@ import React, { useState } from 'react'
 import { Userdetails } from '@/types';
 import { db } from '../firebase';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, updateDoc,collection,getDocs,onSnapshot,query } from "firebase/firestore"; 
 import { auth } from '../firebase';
 function Page() {
+  const router=useRouter()
   const [userDetails,setuserDetails]=useState<Userdetails>({
     email:"",
     password:""
@@ -24,6 +26,7 @@ const register=async(e:React.FormEvent<HTMLFormElement>)=>{
     const user = userCredential.user;
     setDoc(doc(db, "users", user.uid), {
   });
+  router.push("/login")
     console.log(user)
     // ...
   })
