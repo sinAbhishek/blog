@@ -6,9 +6,9 @@ const Navbar = () => {
     <>
     <div style={{backgroundColor:"#009cfc"}} className='w-screen h-20 bg-cyan-400 flex justify-between items-center'>
         <div className=" ml-2"><Link href={"/"}><span className=' text-slate-200 font-semibold'>Home</span></Link></div>
-       {auth.currentUser&&<div className=" mr-2">
-        <Link href={"/login"}><span className=' text-slate-200 font-semibold'>Login</span></Link>
-        <Link href={"/register"}><span className=' text-slate-200 font-semibold'>Register</span></Link>
+       {!auth.currentUser&&<div className=" mr-2">
+        <Link href={"/login"}><span className=' text-slate-200 font-semibold mr-2 bg-slate-800 p-2 rounded-md'>Login</span></Link>
+        <Link href={"/register"}><span className=' text-slate-200 font-semibold mr-2 bg-slate-800 p-2 rounded-md'>Register</span></Link>
         </div>}
     </div>
     

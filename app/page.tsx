@@ -41,9 +41,7 @@ export default function Home() {
       call();
 
     },[])
-    useEffect(()=>{
-      user===null&&router.push("login")
-    },[user])
+  
     useEffect(()=>{
       setfilter(data)
     },[data])
@@ -73,6 +71,14 @@ export default function Home() {
     //    y:"hf"
     // });
     }
+    const check=()=>{
+      if(auth.currentUser){
+        setopen(!open)
+      }
+      else{
+        router.push("/login")
+      }
+    }
   return (
     <main className="w-screen h-max">
       <Navbar/>
@@ -80,7 +86,7 @@ export default function Home() {
     <input onChange={(e)=>filterresults(e)} className=' rounded-full text-sm text-slate-700 h-10 p-4 w-1/3 ' type="text" name="" id="" placeholder=' Search for blogs' />
       </div>
      <div className='w-screen h-screen flex relative'>
-      <button onClick={()=>setopen(!open)} className=' bg-black rounded-lg absolute right-0 top-4 mr-8 text-white px-4 py-2'> Create Blog</button>
+      <button onClick={()=>check()} className=' bg-black rounded-lg absolute right-0 top-4 mr-8 text-white px-4 py-2'> Create Blog</button>
       <div className=" mt-28 flex w-full">
       {filter&&filter.map((c:any,i:number)=>  <Blog key={i} blogs={c}/>)}
       </div>
