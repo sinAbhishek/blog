@@ -76,8 +76,10 @@ await updateDoc(Ref, {
 router.push("/")
   }
   return (
+    <>
+    <Navbar/>
     <div className='w-screen flex justify-center'>
-      <Navbar/>
+      
       {filter[0]&&<div className=" w-10/12 h-max flex flex-col mt-8">
         <div className="w-full flex justify-center">
         <h1 className=' font-bold text-3xl text-slate-800'>{filter[0].title}</h1>
@@ -100,6 +102,8 @@ router.push("/")
       </div>}
       <Update on={open} close={handleClose} data={filter[0]}/>
     </div>
+    </>
+    
   )
 }
 
