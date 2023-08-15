@@ -65,7 +65,7 @@ export default function Home() {
      <div className='w-screen h-screen flex relative'>
       <button onClick={()=>setopen(!open)} className=' bg-violet-300 absolute right-0 top-4 mr-8'> Create Blog</button>
       <div className=" mt-28 flex w-full">
-      {data&&data.map((c:any)=>  <Blog blogs={c}/>)}
+      {data&&data.map((c:any)=>  <Blog key={c.uid} blogs={c}/>)}
       </div>
      </div>
      <Create on={open} close={handleClose}/>
