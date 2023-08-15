@@ -7,7 +7,9 @@ import Modal from '@mui/material/Modal';
 import { doc, setDoc, updateDoc,collection,getDocs,onSnapshot,query } from "firebase/firestore"; 
 import { auth } from '@/app/firebase';
 import axios from 'axios';
+import { v4 as uuidv4 } from "uuid";
 import { db } from '@/app/firebase';
+import "./modal.css"
 import { BlogDetails } from '@/types';
 const style = {
   position: 'absolute' as 'absolute',
@@ -37,7 +39,8 @@ const Create=(prop:any)=> {
       description:"",
       image:"",
       time:"",
-      uid:""
+      userid:"",
+      blogid:""
     })
     const upload=async()=>{
       const formdata=new FormData();
@@ -45,11 +48,11 @@ const Create=(prop:any)=> {
       formdata.append('upload_preset',preset_key);
       const res=await axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,formdata)
       console.log(res.data)
-      setdata((prev)=>({...prev,image:res.data.secure_url,time:new Date(Date.now())}))
+      setdata((prev)=>({...prev,image:res.data.secure_url,time:new Date(Date.now()),blogid:uuidv4()}))
     }
 
     React.useEffect(()=>{
-
+console.log(uuidv4())
     },[data])
 
     React.useEffect(()=>{
@@ -58,7 +61,7 @@ const Create=(prop:any)=> {
         console.log(data)
         const frankDocRef = doc(db, "users", user);
         await setDoc(frankDocRef, {
-          [data.title]: data,
+          [data.blogid]: data,
       },{merge:true});
       console.log("success")
       }
@@ -67,7 +70,7 @@ const Create=(prop:any)=> {
 
     const handlechange=(e:React.ChangeEvent<HTMLInputElement>)=>{
       e.preventDefault();
-      setdata((prev)=>({...prev,[e.target.id]:e.target.value,uid:user}));
+      setdata((prev)=>({...prev,[e.target.id]:e.target.value,userid:user}));
     }
   return (
     <div>
@@ -78,13 +81,16 @@ const Create=(prop:any)=> {
   aria-describedby="modal-modal-description"
 >
 <Box sx={style}>
+  <div className=" flex flex-col justify-center items-center">
   <button onClick={()=>prop.close()}> Close</button>
-  <input id='title' type="text" onChange={handlechange} placeholder='Title'/>
-  <input id='description' type="text" onChange={handlechange} placeholder='Content'/>
-  <input id='name' type="text" onChange={handlechange} placeholder='Your name'/>
-  <input type="file" onChange={(e:any)=>setfile(e.target.files[0])} />
-<button onClick={upload} className=' bg-red-300'>  adsd</button>
-<button onClick={()=>console.log(data.uid)} className=' bg-red-300'>  check</button>
+  <input className=' p-2 h-8 border border-slate-700 w-1/2 rounded-md my-4' id='title' type="text" onChange={handlechange} placeholder='Title'/>
+  <input className=' p-2 h-8 border border-slate-700 w-1/2 rounded-md my-4' id='name' type="text" onChange={handlechange} placeholder='Your name'/>
+  <textarea className=' p-2 h-24 border border-slate-700 w-1/2 rounded-md my-4' id='description' type="text" onChange={handlechange} placeholder='Content'/>
+  <input className=' bg-slate-700 rounded-md' type="file" onChange={(e:any)=>setfile(e.target.files[0])} />
+<button  onClick={upload} className=' bg-green-400 rounded-lg px-2 mt-4'>Submit</button>
+  </div>
+
+
   </Box>
 </Modal>
     </div>

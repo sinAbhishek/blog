@@ -3,12 +3,15 @@
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import Image from 'next/image';
+import Update from '@/components/Update';
 import { doc, setDoc, updateDoc,collection,getDocs,onSnapshot,query } from "firebase/firestore"; 
 import { db } from '../firebase';
 import { useState } from 'react';
 function page({searchParams}:any) {
   const [time,settime]=useState<any>()
   const [data,setdata]=useState<any>()
+  const [open,setopen]=useState<boolean>(false)
+  const handleClose = () => setopen(false);
   const [filter,setfilter]=useState<any>([])
   useEffect(()=>{
 
@@ -37,7 +40,7 @@ function page({searchParams}:any) {
       const result = data.filter((c:any) =>
       searchParams.search.toLowerCase() ===
       c.title.slice(0, searchParams.search.length).toLocaleLowerCase())
-      settime(new Date(result[0].time.seconds*1000))
+      settime(new Date(result[0]?.time.seconds*1000))
   setfilter(result)
   console.log(result)
     }
@@ -53,17 +56,20 @@ function page({searchParams}:any) {
         
         <div className=" flex justify-between items-center px-2">
           <div className="">
-          <h6 className=' text-slate-700 text-sm font-semibold '>{filter[0].name}</h6>
-        {time&&<h6 className='italic text-xs text-slate-700'>{time.toDateString()}</h6>}
+          <h6 className=' text-slate-700 text-md font-semibold '>{filter[0].name}</h6>
+        {time&&<h6 className='italic text-sm text-slate-700'>{time.toDateString()}</h6>}
           </div>
-     <div className=""></div>
+     <div className="">
+      <button onClick={()=>setopen(!open)} className=' bg-red-500'>Update</button>
+      <button className=' bg-red-500'>Delete</button>
+     </div>
         </div>
         <div className="w-full h-72 relative rounded-lg mt-4">
       <Image src={filter[0].image} fill sizes='' alt='alt' style={{borderRadius:"8px 8px 0 0"}} />
       </div>
       <p>{filter[0].description}</p>
       </div>}
-      
+      <Update on={open} close={handleClose} data={filter[0]}/>
     </div>
   )
 }

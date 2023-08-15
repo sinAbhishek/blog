@@ -8,5 +8,6 @@ export interface BlogDetails{
     time:any;
     image:string;
     name:string;
-    uid:any;
+    userid:any;
+    blogid:any;
 }
