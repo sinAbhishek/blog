@@ -48,6 +48,7 @@ const Update=(prop:any)=> {
             await setDoc(frankDocRef, {
               [data.blogid]: data,
           },{merge:true});
+          prop.close()
           router.push("/")
         }
     }
@@ -65,6 +66,7 @@ const Update=(prop:any)=> {
           [data.title]: data,
       },{merge:true});
       console.log("success")
+      prop.close()
       router.push("/")
       }
       prop.data&&data.image&&data.image!==prop.data.image&&call()
@@ -85,7 +87,7 @@ const Update=(prop:any)=> {
 <Box sx={style}>
    {data&&<div className=" flex flex-col justify-center items-center">
 
-    <button onClick={()=>prop.close()}> Close</button>
+    <button className=' absolute right-0 text-black bg-white p-2 top-0 ' onClick={()=>prop.close()}> Close</button>
   <input className=' p-2 h-8 border border-slate-700 w-1/2 rounded-md my-4' id='title' value={data.title} type="text" onChange={handlechange} placeholder='Title'/>
   <input className=' p-2 h-8 border border-slate-700 w-1/2 rounded-md my-4' id='name' value={data.name} type="text" onChange={handlechange} placeholder='Your name'/>
   <textarea className=' p-2 h-24 border border-slate-700 w-1/2 rounded-md my-4' id='description' value={data.description} type="text" onChange={handlechange} placeholder='Content'/>

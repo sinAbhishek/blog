@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, updateDoc,collection,getDocs,onSnapshot,query } from "firebase/firestore"; 
 import { auth } from '../firebase';
-function page() {
+function Page() {
   const [userDetails,setuserDetails]=useState<Userdetails>({
     email:"",
     password:""
@@ -50,4 +50,4 @@ const register=async(e:React.FormEvent<HTMLFormElement>)=>{
   )
 }
 
-export default page
+export default Page

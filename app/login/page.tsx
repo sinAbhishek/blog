@@ -5,7 +5,7 @@ import { Userdetails } from '@/types';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
 import Link from "next/link";
-function page() {
+function Page() {
   const [userDetails,setuserDetails]=useState<Userdetails>({
     email:"",
     password:""
@@ -45,4 +45,4 @@ const register=(e:React.FormEvent<HTMLFormElement>):void=>{
   )
 }
 
-export default page
+export default Page

@@ -63,6 +63,7 @@ console.log(uuidv4())
         await setDoc(frankDocRef, {
           [data.blogid]: data,
       },{merge:true});
+      prop.close();
       console.log("success")
       }
       data.image&&call()
@@ -82,7 +83,7 @@ console.log(uuidv4())
 >
 <Box sx={style}>
   <div className=" flex flex-col justify-center items-center">
-  <button onClick={()=>prop.close()}> Close</button>
+  <button className=' absolute right-0 text-black bg-white p-2 top-0 ' onClick={()=>prop.close()}> Close</button>
   <input className=' p-2 h-8 border border-slate-700 w-1/2 rounded-md my-4' id='title' type="text" onChange={handlechange} placeholder='Title'/>
   <input className=' p-2 h-8 border border-slate-700 w-1/2 rounded-md my-4' id='name' type="text" onChange={handlechange} placeholder='Your name'/>
   <textarea className=' p-2 h-24 border border-slate-700 w-1/2 rounded-md my-4' id='description' type="text" onChange={handlechange} placeholder='Content'/>

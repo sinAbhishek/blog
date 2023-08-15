@@ -10,7 +10,7 @@ import { db } from '../firebase';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { auth } from '../firebase';
-function page({searchParams}:any) {
+function Page({searchParams}:any) {
   const router=useRouter()
   const [time,settime]=useState<any>()
   const [data,setdata]=useState<any>()
@@ -101,4 +101,4 @@ router.push("/")
   )
 }
 
-export default page
+export default Page
