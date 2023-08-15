@@ -21,7 +21,7 @@ const style = {
   p: 4,
 };
 
-const Create=()=> {
+const Create=(prop:any)=> {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const [file,setfile]=React.useState("")
@@ -71,17 +71,17 @@ const Create=()=> {
     }
   return (
     <div>
-        <Button onClick={handleOpen}>Open modal</Button>
 <Modal
-  open={open}
-  onClose={handleClose}
+  open={prop.on}
+  onClose={()=>prop.close()}
   aria-labelledby="modal-modal-title"
   aria-describedby="modal-modal-description"
 >
 <Box sx={style}>
-  <input id='title' type="text" onChange={handlechange}/>
-  <input id='description' type="text" onChange={handlechange}/>
-  <input id='name' type="text" onChange={handlechange}/>
+  <button onClick={()=>prop.close()}> Close</button>
+  <input id='title' type="text" onChange={handlechange} placeholder='Title'/>
+  <input id='description' type="text" onChange={handlechange} placeholder='Content'/>
+  <input id='name' type="text" onChange={handlechange} placeholder='Your name'/>
   <input type="file" onChange={(e:any)=>setfile(e.target.files[0])} />
 <button onClick={upload} className=' bg-red-300'>  adsd</button>
 <button onClick={()=>console.log(data.uid)} className=' bg-red-300'>  check</button>

@@ -4,7 +4,9 @@ const Blog:any = (prop:any) => {
 
 
   return (
-    <div>{prop.title}</div>
+    <div style={{backgroundImage:`url(${prop.blogs.image})`}} className=" w-1/3 h-1/3 bg-no-repeat bg-contain">
+
+    </div>
   )
 }
 

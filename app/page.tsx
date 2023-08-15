@@ -8,12 +8,13 @@ import { signOut } from 'firebase/auth';
 import { doc, setDoc, updateDoc,collection,getDocs,onSnapshot,query } from "firebase/firestore"; 
 import { db } from "./firebase";
 import React, { useEffect, useState } from "react";
+import Navbar from '@/components/Navbar';
+
+
 export default function Home() {
-  
-  const frankDocRef = doc(db, "users", "random");
+  const [open,setopen]=useState(false)
+  const handleClose = () => setopen(false);
   const [data,setdata]=useState<any>()
-  const x="color"
-  const y="sadw"
     useEffect(()=>{
 
       const call=async ()=>{
@@ -56,14 +57,20 @@ export default function Home() {
     // });
     }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-     <div>
+    <main className="w-screen h-max">
+      <Navbar/>
+      <div style={{backgroundColor:"#009cfc"}} className=" search w-screen h-32 bg-emerald-300 flex justify-center items-center">
+    <input className=' rounded-full text-sm text-slate-700 h-10 p-4 w-1/3 ' type="text" name="" id="" placeholder=' Search for blogs' />
+      </div>
+     <div className='w-screen h-screen flex relative'>
+      <button onClick={()=>setopen(!open)} className=' bg-violet-300 absolute right-0 top-4 mr-8'> Create Blog</button>
+      <div className=" mt-28 flex w-full">
       {data&&data.map((c:any)=>  <Blog blogs={c}/>)}
-    
-      <button className=' bg-black' onClick={update}> hello</button>
-      <button className=' bg-red-600' onClick={signout}> hello</button>
+      </div>
      </div>
-     <Create/>
+     <Create on={open} close={handleClose}/>
+     <button className=' bg-black' onClick={update}> hello</button>
+      <button className=' bg-red-600' onClick={signout}> hello</button>
     </main>
   )
 }
