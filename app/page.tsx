@@ -38,6 +38,9 @@ export default function Home() {
       call();
 
     },[])
+    useEffect(()=>{
+      setfilter(data)
+    },[data])
     function filterresults(e:React.ChangeEvent<HTMLInputElement>) {
      
         const result = data.filter((c:any) =>
