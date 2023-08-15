@@ -15,6 +15,7 @@ export default function Home() {
   const [open,setopen]=useState(false)
   const handleClose = () => setopen(false);
   const [data,setdata]=useState<any>()
+  const [filter,setfilter]=useState<any>(data)
     useEffect(()=>{
 
       const call=async ()=>{
@@ -37,7 +38,14 @@ export default function Home() {
       call();
 
     },[])
-
+    function filterresults(e:React.ChangeEvent<HTMLInputElement>) {
+     
+        const result = data.filter((c:any) =>
+            e.target.value.toLowerCase() ===
+            c.title.slice(0, e.target.value.length).toLocaleLowerCase())
+        setfilter(result)
+        console.log(result)
+    }
     const signout=()=>{
       signOut(auth).then(() => {
         // Sign-out successful.
@@ -60,12 +68,12 @@ export default function Home() {
     <main className="w-screen h-max">
       <Navbar/>
       <div style={{backgroundColor:"#009cfc"}} className=" search w-screen h-32 bg-emerald-300 flex justify-center items-center">
-    <input className=' rounded-full text-sm text-slate-700 h-10 p-4 w-1/3 ' type="text" name="" id="" placeholder=' Search for blogs' />
+    <input onChange={(e)=>filterresults(e)} className=' rounded-full text-sm text-slate-700 h-10 p-4 w-1/3 ' type="text" name="" id="" placeholder=' Search for blogs' />
       </div>
      <div className='w-screen h-screen flex relative'>
       <button onClick={()=>setopen(!open)} className=' bg-violet-300 absolute right-0 top-4 mr-8'> Create Blog</button>
       <div className=" mt-28 flex w-full">
-      {data&&data.map((c:any)=>  <Blog key={c.uid} blogs={c}/>)}
+      {filter&&filter.map((c:any,i:number)=>  <Blog key={i} blogs={c}/>)}
       </div>
      </div>
      <Create on={open} close={handleClose}/>
